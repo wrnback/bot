@@ -1,0 +1,28 @@
+{
+    "despatch": [
+        {"hour": 18, "minute": 0, "second": 0},
+        {"hour": 10, "minute": 20, "second": 0}
+    ],
+    "proxies": {
+        "http": "http://10.0.0.3:8080/",
+        "https": "http://10.0.0.3:8080/"
+    },
+    "azure": {
+        "token": "<change_me>",
+        "host": "https://tfsprod.fsight.ru",
+        "organization": "Foresight",
+        "project": "AP",
+        "team": "Statistics and Modeling Tools Team",
+        "exclude_teams": [
+            "Product Management Team",
+            "Visualization Team"
+        ],
+        "repositories": [
+            "AP", 
+            "Web"
+        ]
+    },
+    "webhook": {
+        "url": "<change_me>"
+    }
+}
