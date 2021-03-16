@@ -10,7 +10,7 @@
 
 ## Установка и запуск
 ```
-pip install -r .\requirements.txt
+pip install -r requirements.txt
 python start.py
 ```
 
@@ -24,3 +24,5 @@ python start.py
 - `azure.project` - проект
 - `azure.team` - команда чьи запрос на вытягивание вам нужно отслеживать
 - `azure.exclude_teams` - список команд, члены которых будут исключены из целевой команды (azure.team)
+- `azure.repositories` - список репозиториев для отслеживания
+- `azure.webhook` - вебхук Discord
