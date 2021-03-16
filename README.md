@@ -25,4 +25,4 @@ python start.py
 - `azure.team` - команда чьи запрос на вытягивание вам нужно отслеживать
 - `azure.exclude_teams` - список команд, члены которых будут исключены из целевой команды (azure.team)
 - `azure.repositories` - список репозиториев для отслеживания
-- `azure.webhook` - вебхук Discord
+- `webhook` - вебхук Discord
