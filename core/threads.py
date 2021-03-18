@@ -42,13 +42,13 @@ class MainTask(Base, Thread):
                                f"reason: '{response.reason}'")
 
     def format_msg(self, prs):
-        msg = "Active Pull Requests:\n```"
+        msg = "Active Pull Requests:\n```diff\n"
         for pr in prs:
             approv_list = [r["approved"] for r in pr["reviewers"]]
             reviewers_count = len(approv_list)
             approv_reviewers_count = len(list(filter(lambda x: x, approv_list)))
-            msg += f"[{pr['author']}] [{approv_reviewers_count}/{reviewers_count}] " + \
-                   f"({pr['id']}) {pr['title']}\n"
+            msg += f"{' ' if pr['is_draft'] else '+'}[{pr['author']}] [{approv_reviewers_count}/" + \
+                   f"{reviewers_count}] ({pr['id']}) {pr['title']}\n"
         msg += "\n```"
         return msg
 

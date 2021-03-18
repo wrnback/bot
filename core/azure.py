@@ -104,6 +104,7 @@ class Azure(Base):
                     "status": pull_request.status,
                     "title": pull_request.title,
                     "id": pull_request.pull_request_id,
+                    "is_draft": pull_request.is_draft,
                     "reviewers": [],
                 })
                 for reviewer in pull_request.reviewers:
