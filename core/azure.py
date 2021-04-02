@@ -103,6 +103,9 @@ class Azure(Base):
                     "author": pull_request.created_by.display_name,
                     "status": pull_request.status,
                     "title": pull_request.title,
+                    "url": f"{self.config['azure']['host']}/{self.config['azure']['organization']}/" + \
+                           f"{self.config['azure']['project']}/_git/{pull_request.repository.name}/" + \
+                           f"pullrequest/{pull_request.pull_request_id}",
                     "id": pull_request.pull_request_id,
                     "is_draft": pull_request.is_draft,
                     "reviewers": [],
