@@ -50,7 +50,7 @@ class MainTask(Base, Thread):
                 despatch_list = [datetime.combine(datetime_now.today(), time(**despatch)) 
                                  for despatch in self.config["despatch"]]
 
-                if datetime_now in despatch_list:
+                if datetime_now in despatch_list and not datetime_now.isoweekday() in [6 ,7]:
 
                     pull_request_list = []
                     for pull_request in azure.team.get_pull_requests():
