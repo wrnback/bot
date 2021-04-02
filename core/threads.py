@@ -6,6 +6,7 @@ from datetime import time, datetime
 from .exceptions import SendMsgError
 from .base import Base
 from .azure import Azure
+from .utils import MessageTemplates
 
 
 class EmptyTask(Thread):
@@ -41,26 +42,33 @@ class MainTask(Base, Thread):
             raise SendMsgError(f"Webhook returned status code - {response.status_code}, " + 
                                f"reason: '{response.reason}'")
 
-    def format_msg(self, prs):
-        msg = "Active Pull Requests:\n```diff\n"
-        for pr in prs:
-            approv_list = [r["approved"] for r in pr["reviewers"]]
-            reviewers_count = len(approv_list)
-            approv_reviewers_count = len(list(filter(lambda x: x, approv_list)))
-            msg += f"{' ' if pr['is_draft'] else '+'}[{pr['author']}] [{approv_reviewers_count}/" + \
-                   f"{reviewers_count}] ({pr['id']}) {pr['title']}\n"
-        msg += "\n```"
-        return msg
-
     def run(self):
         try:
             azure = Azure()
             while self.loop:
                 datetime_now = datetime.now().replace(microsecond=0)
-                despatch_list = [datetime.combine(datetime_now.today(), time(**despatch)) for despatch in self.config["despatch"]]
+                despatch_list = [datetime.combine(datetime_now.today(), time(**despatch)) 
+                                 for despatch in self.config["despatch"]]
+
                 if datetime_now in despatch_list:
-                    self.send_to_webhook(self.format_msg(azure.team.get_pull_requests()))
+
+                    pull_request_list = []
+                    for pull_request in azure.team.get_pull_requests():
+                        pull_request_list.append(MessageTemplates.create_pull_request(
+                            is_draft=pull_request["is_draft"],
+                            author=pull_request["author"],
+                            reviewers=pull_request["reviewers"],
+                            title=pull_request["title"],
+                            url=pull_request["url"],
+                        ))
+                    
+                    pull_requests_parts = MessageTemplates.create_pull_requests(pull_request_list)
+
+                    for pull_requests_part in pull_requests_parts:
+                        self.send_to_webhook(f"Active Pull Requests:\n{pull_requests_part}")
+
                 else:
                     sleep(1)
+                    
         except Exception as e:
             self.logger.error(e)
