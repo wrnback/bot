@@ -29,7 +29,7 @@ class MessageTemplates:
 class MessageTemplatesPullRequest:
 
     def __str__(self):
-        return f"`[{' ' if self.is_draft else 'x'}]`[`[{self.author}] " + \
+        return f"`[{'d' if self.is_draft else 'p'}]`[`[{self.author}] " + \
                f"[{self.get_approv_status()}] {self.title}`]({self.url})"
 
     def get_approv_status(self):
